@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,11 +16,12 @@ public class CharacterController : MonoBehaviour
     bool isOnGround;
     public GameObject groundChecker;
     public LayerMask groundLayer;
-    public float jumpForce = 300.0f
+    public float jumpForce = 300.0f;
 
     void Start()
     {
         cam =GameObject.Find("Main Camera");
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -32,9 +34,16 @@ public class CharacterController : MonoBehaviour
         rotation = rotation + Input.GetAxis("Mouse X");
         transform.rotation = Quaternion.Euler(new Vector3(0.0f, rotation, 0.0f));
         
-        camRotation = camRotation + Input.GetAxis("Mouse Y");
+        camRotation = camRotation + -Input.GetAxis("Mouse Y");
         cam.transform.localRotation = Quaternion.Euler(new Vector3(camRotation, 0.0f, 0.0f));
 
         isOnGround = Physics.CheckSphere(groundChecker.transform.position, 0.1f, groundLayer);
+
+        if (isOnGround == true && Input.GetKeyDown(KeyCode.Space))
+        {
+            myRigidbody.AddForce(transform.up * jumpForce);
+        }
+    
+    
     }
 }
