@@ -694,11 +694,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e77cfddd58ff1c4cb380eb1090c3ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundChecker: {fileID: 1935451678}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  jumpForce: 300
 --- !u!136 &621336965
 CapsuleCollider:
   m_ObjectHideFlags: 0
