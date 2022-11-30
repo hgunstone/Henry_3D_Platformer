@@ -136,9 +136,10 @@ public class PlayerMove : MonoBehaviour
         {
             state = MovementState.wallrunning;
             desiredMoveSpeed = wallrunSpeed;
+            Debug.Log("wallrun");
         }
 
-        else if (sliding)
+        else if (sliding && !wallrunning)
         {
             state = MovementState.sliding;
 
@@ -149,13 +150,13 @@ public class PlayerMove : MonoBehaviour
                 desiredMoveSpeed = sprintSpeed;
         }
 
-        else if (Input.GetKey(crouchKey))
+        else if (Input.GetKey(crouchKey) && !wallrunning)
         {
             state = MovementState.crouching;
             desiredMoveSpeed = crouchSpeed;
         }
-        
-        else if(grounded && Input.GetKey(sprintKey))
+
+        else if (grounded && Input.GetKey(sprintKey))
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
@@ -169,6 +170,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             state = MovementState.air;
+            rb.useGravity = true;
         }
 
         if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)

@@ -7,9 +7,14 @@ public class Wallrunning : MonoBehaviour
     public LayerMask whatIsWall;
     public LayerMask whatIsGround;
     public float wallRunForce;
+    public float wallClimbSpeed;
     public float maxWallRunTime;
     private float wallRunTimer;
 
+    public KeyCode upwardsRunKey = KeyCode.LeftShift;
+    public KeyCode downwardsRunKey = KeyCode.LeftControl;
+    private bool upwardsRunning;
+    private bool downwardsRunning;
     private float horizontalInput;
     private float verticalInput;
 
@@ -55,8 +60,11 @@ public class Wallrunning : MonoBehaviour
 
     private void StateMachine()
     {
-        horizontalInput = Input.GetAxisRaw("horizontal");
+        horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+
+        upwardsRunning = Input.GetKey(upwardsRunKey);
+        downwardsRunning = Input.GetKey(downwardsRunKey);
 
         if((wallLeft || wallRight) && verticalInput > 0 && AboveGround())
         {
@@ -90,7 +98,13 @@ public class Wallrunning : MonoBehaviour
 
         rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
 
-        if(!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
+        if (upwardsRunning)
+            rb.velocity = new Vector3(rb.velocity.x, wallClimbSpeed, rb.velocity.z);
+
+        if (downwardsRunning)
+            rb.velocity = new Vector3(rb.velocity.x, -wallClimbSpeed, rb.velocity.z);
+
+        if (!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
             rb.AddForce(-wallNormal * 100, ForceMode.Force);
 
     }
