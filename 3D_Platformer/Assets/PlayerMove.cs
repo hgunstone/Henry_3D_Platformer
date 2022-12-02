@@ -62,6 +62,7 @@ public class PlayerMove : MonoBehaviour
     public bool wallrunning;
     public bool sliding;
 
+    Animator myAnim;
 
     // Start is called before the first frame update
     void Start()
@@ -70,7 +71,12 @@ public class PlayerMove : MonoBehaviour
         rb.freezeRotation = true;
 
         startYScale = transform.localScale.y;
+
+        myAnim = GetComponentInChildren<Animator>();
+
     }
+
+
 
     // Update is called once per frame
     private void Update()
@@ -160,6 +166,8 @@ public class PlayerMove : MonoBehaviour
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
+
+            myAnim.SetFloat("speed", newVelocity.magnitude);
         }
         else if (grounded)
         {
