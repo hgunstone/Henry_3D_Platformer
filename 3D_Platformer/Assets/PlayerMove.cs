@@ -83,6 +83,7 @@ public class PlayerMove : MonoBehaviour
     {
 
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatisground);
+        myAnim.SetBool("onGround", grounded);
 
         MyInput();
         SpeedControl();
@@ -97,6 +98,7 @@ public class PlayerMove : MonoBehaviour
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        myAnim.SetFloat("moveSpeed", flatVel.magnitude);
 
         if (flatVel.magnitude > moveSpeed)
         {
@@ -166,8 +168,6 @@ public class PlayerMove : MonoBehaviour
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
-
-            myAnim.SetFloat("speed", newVelocity.magnitude);
         }
         else if (grounded)
         {
